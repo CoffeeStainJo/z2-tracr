@@ -48,16 +48,11 @@ function nowInput() {
 }
 
 // ─── Storage ──────────────────────────────────────────────────────────────────
-const mem = {};
-const stor = (typeof window !== "undefined" && window.storage) ? window.storage : {
-  get: async k => mem[k] ? { value: mem[k] } : null,
-  set: async (k, v) => { mem[k] = v; return { key: k, value: v }; },
-};
 async function load() {
-  try { const r = await stor.get(SK); return r ? JSON.parse(r.value) : []; } catch { return []; }
+  try { const r = typeof window !== "undefined" && window.localStorage.getItem(SK); return r ? JSON.parse(r) : []; } catch { return []; }
 }
 async function save(arr) {
-  try { await stor.set(SK, JSON.stringify(arr)); } catch { }
+  try { typeof window !== "undefined" && window.localStorage.setItem(SK, JSON.stringify(arr)); } catch { }
 }
 
 // ─── Global CSS ───────────────────────────────────────────────────────────────
